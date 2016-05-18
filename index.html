@@ -1,0 +1,191 @@
+<!-- From index.tpl.html - Grunt task index -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <title>The Potato Cosmos</title>
+    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="apple-touch-icon" sizes="57x57" href="/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#603cba">
+    <meta name="msapplication-TileImage" content="/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Angular Material style sheet -->
+    <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0-rc2/angular-material.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--My style sheet-->
+    <link rel="stylesheet" href="index.css">
+    <!-- Begin Cookie Consent plugin by Silktide - http://silktide.com/cookieconsent -->
+    <script type="text/javascript">
+        window.cookieconsent_options = {"message":"This website uses cookies to ensure you get the best experience on our website","dismiss":"Got it!","learnMore":"More info","link":null,"theme":"dark-bottom"};
+    </script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/1.0.9/cookieconsent.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Base64/0.3.0/base64.min.js"></script>
+    <!-- Google Analyctics -->
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-77847929-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+</head>
+<body ng-app="myApp">
+
+<!-- All code Copyright (C) aar118 - All Rights Reserved
+ * Written by aar118, May 2016
+ * Re-distrubuting this code for commercial use is prohibited, but non-commercial is allowed
+-->
+
+<div md-theme="{{dynamicTheme}}" style="text-align: center;" ng-controller="yudodis">
+    <md-content>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+              <span>The Potato Cosmos(Pre-Beta)</span>
+              <!-- fill up the space between left and right area -->
+              <span flex></span>
+              <md-button ng-click="showListBottomSheet()">Stuff</md-button>
+              <md-button ng-click="showAdvanced($event)">Changelog</md-button>
+              <md-button ng-click="toggle2()">Stats</md-button>
+              <md-button ng-click="toggle1()">Options</md-button>
+            </div>
+        </md-toolbar>
+        <div style="text-align: left;" class="options" ng-show="optionToggle">
+            <h3 style="text-align: center;">Options</h3>
+            <md-switch ng-click="lightSwitchOn()" ng-model="lightSwitch" ng-true-value="'On'" ng-false-value="'Off'" aria-label="Light Switch">
+                <md-tooltip md-direction="right">Turn up the brightness of the content!</md-tooltip>
+                Light: {{lightSwitch}}
+            </md-switch>
+            <md-switch ng-click="hackSwitchOn()" ng-model="hackSwitch" ng-true-value="'On'" ng-false-value="'Off'" aria-label="Hack Switch">
+                <md-tooltip md-direction="right">Increase click multiplier to a giant amount!</md-tooltip>
+                Hack: {{hackSwitch}}
+            </md-switch>
+            <md-button ng-click="showConfirm($event)" >Full Reset</md-button>
+            <md-button ng-click="export($event)">Export</md-button>
+            <md-button ng-click="import($event)">Import</md-button>
+            <md-divider></md-divider> 
+        </div>
+        <div class="stats" ng-show="statToggle">
+            <h3>Stats</h3>
+            <md-content>
+                <p>Total Potatoes from Everything (All Time): {{totalPotatoes | shortNumber}}</p>
+                <p>Total Potatoes from Clicks (All Time): {{totalPotatoesFromClicks | shortNumber}}</p>
+                <p>Total Big Potato Clicks (All Time): {{totalBigPotatoClicks | shortNumber}}</p>
+            </md-content>
+            <md-content class="md-padding" ng-scrollbar scrollbar-config="{show: true}" >
+                Upgrades
+                <div layout="row" layout-wrap>
+                    <div ng-repeat="upgrade in upgrades">
+                        <div flex="5">
+                            <md-button ng-if="upgrade.amount > 0" ng-disabled style="text-transform: none; border: solid 1.5px {{borders}}; border-radius: 5px; width: 125px; height: 100px;">
+                            <div>{{::upgrade.name}}</div>
+                            <div>+{{upgrade.upgrade | number:0}}00%</div>
+                            </md-button>
+                        </div>
+                    </div>
+                </div>
+            </md-content>
+            <md-divider></md-divider> 
+        </div>
+    </md-content>
+    <md-content>
+        <p>Potatoes: {{potatoes | shortNumber}}</p>
+        <p>PpS: {{getPPS() | shortNumber}}</p>
+    </md-content>
+    <md-content>
+        <md-tabs md-dynamic-height="" md-border-bottom="">
+            <md-tab label="Earth">
+                <md-tabs md-dynamic-height="" md-border-bottom="">
+                    <md-tab label="Potato Farm">
+                        <md-content class="md-padding" ng-scrollbar scrollbar-config="{show: true}" >
+                            <div layout="row" layout-padding>
+                                <div ng-repeat="unit in units">
+                                    <div flex>
+                                        <md-button md-theme="{{dynamicTheme}}" ng-if="getPPS() >= unit.requirement" ng-disabled="unit.price > potatoes" style="text-transform: none; border: solid 1.5px {{borders}}; border-radius: 5px" ng-click="price($index)">
+                                            <md-tooltip md-direction="top">{{unit.description}}</md-tooltip>
+                                            <div>{{::unit.name}}</div>
+                                            <div>Amount: {{unit.amount | number:0}}</div>
+                                            <div>Price: {{unit.price | shortNumber}}</div> 
+                                            <div>PpS: {{unit.pps * unit.mult | shortNumber:0}}</div>
+                                        </md-button>
+                                    </div>
+                                </div>
+                            </div>
+                        </md-content>
+                    </md-tab>
+                     <md-tab ng-if="totalPotatoes > 10000000" label="Buildings">
+                        <md-content class="md-padding">
+                            <h1 class="md-display-2">Tab Two</h1>
+                            <p>Integer turpis erat, porttitor vitae mi faucibus, laoreet interdum tellus. Curabitur posuere molestie dictum. Morbi eget congue risus, quis rhoncus quam. Suspendisse vitae hendrerit erat, at posuere mi. Cras eu fermentum nunc. Sed id ante eu orci commodo volutpat non ac est. Praesent ligula diam, congue eu enim scelerisque, finibus commodo lectus.</p>
+                        </md-content>
+                    </md-tab>
+                    <md-tab ng-if="false" label="Factory">
+                        <md-content class="md-padding">
+                            <h1 class="md-display-2">Tab Two</h1>
+                            <p>Integer turpis erat, porttitor vitae mi faucibus, laoreet interdum tellus. Curabitur posuere molestie dictum. Morbi eget congue risus, quis rhoncus quam. Suspendisse vitae hendrerit erat, at posuere mi. Cras eu fermentum nunc. Sed id ante eu orci commodo volutpat non ac est. Praesent ligula diam, congue eu enim scelerisque, finibus commodo lectus.</p>
+                        </md-content>
+                    </md-tab>
+                    <md-tab ng-if="getPPS() > 5" label="Upgrades">
+                        <md-content class="md-padding" ng-scrollbar scrollbar-config="{show: true}" >
+                            <div layout="row" layout-wrap>
+                                <div ng-repeat="upgrade in upgrades">
+                                    <div flex="5">
+                                        <md-button ng-click="upgradeStuff($index)" ng-if="getPPS() >= upgrade.requirement && upgrade.amount < 1" ng-disabled="upgrade.cost > potatoes" style="text-transform: none; border: solid 1.5px {{borders}}; border-radius: 5px; width: 200px; height: 125px;">
+                                            <div>{{::upgrade.name}}</div>
+                                            <div>+{{upgrade.upgrade | number:0}}00%</div>
+                                            <div>Cost: {{upgrade.cost | shortNumber}}</div>
+                                        </md-button>
+                                    </div>
+                                </div>
+                            </div>
+                        </md-content>
+                    </md-tab>
+                </md-tabs>
+                <div>
+                    <button style="border: none;" class="bigPotato" ng-click="bigPotatoClick()"></button>
+                </div>
+            </md-tab>
+        </md-tabs>
+    <md-divider></md-divider> 
+    </md-content>
+
+    <md-content>
+        <div ng-if="savingToggle > 0" class="saveButton" layout="column" layout-align="space-around">
+            <div>Saving</div>
+            <md-progress-circular style="text-align: left;" class="md-accent" md-mode="indeterminate"></md-progress-circular>
+        </div>
+    </md-content>
+</div>
+
+<!-- Angular Material requires Angular.js Libraries -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.5/angular.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.5/angular-animate.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.5/angular-aria.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.5/angular-messages.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.5/angular-cookies.min.js"></script>
+<!-- Angular Material Library -->
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0-rc2/angular-material.min.js"></script>
+<!-- Angular Scrollbar Library -->
+<script type="text/javascript" src="scripts/ngscrollbar-master/ngscrollbar.js"></script>
+<!-- Angular Modules/Controllers -->
+<script src="myApp.js"></script>
+
+</body>
+</html>

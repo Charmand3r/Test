@@ -1,0 +1,73 @@
+@keyframes bigPotatoClick {
+	0% {transform: scale(0.9);}
+	50% {transform: scale(0.8);}
+	100% {transform: scale(0.9);}
+}
+@keyframes appeardisappear {
+	0% {opacity: 0;}
+	25% {opacity: 0.5;}
+	50% {opacity: 1;}
+	75% {opacity: 0.5;}
+	100% {opacity: 0;}
+}
+@keyframes appear {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+@keyframes disappear {
+	from {
+		opacity: 1;
+	}
+	to {
+		opacity: 0;
+	}
+}
+.bigPotato {
+	padding-top: 10px;
+	padding-bottom: 10px;
+	margin: 0 auto;
+	width: 250px;
+	height: 375px;
+	border-radius: 150px;
+	-webkit-border-radius: 150px;
+	-moz-border-radius: 150px;
+	background: url(img/bigPotato.png) no-repeat;
+	background-size:auto;
+	background-position:center;
+	-webkit-transform: scale(0.9);
+	transform: scale(0.9);
+	cursor: crosshair;
+	}
+.bigPotato:hover {
+	-webkit-transform: scale(1);
+	transform: scale(1);
+}
+.bigPotato:focus {
+	outline: none;
+}
+.bigPotato:active {
+	animation-name: bigPotatoClick;
+    animation-duration: 0.1s;
+}
+.tabsdemoDynamicHeight md-content {
+  background-color: transparent !important; 
+}
+ .tabsdemoDynamicHeight md-content md-tabs {
+    background: #f6f6f6;
+    border: 1px solid #e1e1e1; 
+}
+.tabsdemoDynamicHeight md-content md-tabs md-tabs-wrapper {
+      background: white; 
+}
+.tabsdemoDynamicHeight md-content h1:first-child {
+    margin-top: 0; 
+}
+.saveButton {
+	position: fixed;
+	left: 0;
+	bottom: 0;
+}
