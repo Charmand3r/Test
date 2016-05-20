@@ -1,0 +1,119 @@
+<div md-theme="{{dynamicTheme}}" style="text-align: center;" ng-controller="yudodis">    
+    <md-content>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+              <span>The Potato Cosmos(Alpha)</span>
+              <!-- fill up the space between left and right area -->
+              <span flex></span>
+              <md-button ng-click="showListBottomSheet()">Stuff</md-button>
+              <md-button ng-click="showAdvanced($event)">Changelog</md-button>
+              <md-button ng-click="toggle2()">Stats</md-button>
+              <md-button ng-click="toggle1()">Options</md-button>
+            </div>
+        </md-toolbar>
+        <div style="text-align: left;" class="options" ng-show="optionToggle">
+            <h3 style="text-align: center;">Options</h3>
+            <md-switch ng-click="lightSwitchOn()" ng-model="lightSwitch" ng-true-value="'On'" ng-false-value="'Off'" aria-label="Light Switch">
+                <md-tooltip md-direction="right">Turn up the brightness of the content!</md-tooltip>
+                Light: {{lightSwitch}}
+            </md-switch>
+            <md-switch ng-click="hackSwitchOn()" ng-model="hackSwitch" ng-true-value="'On'" ng-false-value="'Off'" aria-label="Hack Switch">
+                <md-tooltip md-direction="right">Increase click multiplier to a giant amount!</md-tooltip>
+                Hack: {{hackSwitch}}
+            </md-switch>
+            <md-button ng-click="showConfirm($event)" >Full Reset</md-button>
+            <md-button ng-click="export($event)">Export</md-button>
+            <md-button ng-click="import($event)">Import</md-button>
+            <md-divider></md-divider> 
+        </div>
+        <div class="stats" ng-show="statToggle">
+            <h3>Stats</h3>
+            <md-content>
+                <p>Total Potatoes from Everything (All Time): {{totalPotatoes | shortNumber}}</p>
+                <p>Total Potatoes from Clicks (All Time): {{totalPotatoesFromClicks | shortNumber}}</p>
+                <p>Total Big Potato Clicks (All Time): {{totalBigPotatoClicks | shortNumber}}</p>
+            </md-content>
+            <md-content class="md-padding">
+                Upgrades
+                <div layout="row" layout-align="center center" layout-wrap>
+                    <div ng-repeat="upgrade in upgrades">
+                        <div flex="5">
+                            <md-button ng-if="upgrade.amount > 0" ng-disabled style="text-transform: none; border: solid 1.5px {{borders}}; border-radius: 5px; width: 125px; height: 100px;">
+                            <div>{{::upgrade.name}}</div>
+                            <div>+{{upgrade.upgrade | number:0}}00%</div>
+                            </md-button>
+                        </div>
+                    </div>
+                </div>
+            </md-content>
+            <md-divider></md-divider> 
+        </div>
+    </md-content>
+    <md-content>
+        <p>Potatoes: {{potatoes | shortNumber}}</p>
+        <p>PpS: {{getPPS() | shortNumber}}</p>
+    </md-content>
+    <md-content>
+        <md-tabs md-dynamic-height="" md-border-bottom="">
+            <md-tab label="Earth">
+                <md-tabs md-dynamic-height="" md-border-bottom="">
+                    <md-tab label="Potato Farm">
+                        <md-content class="md-padding">
+                            <div layout="row" layout-align="center center" layout-padding>
+                                <div ng-repeat="unit in units">
+                                    <div flex>
+                                        <md-button md-theme="{{dynamicTheme}}" ng-if="getPPS() >= unit.requirement" ng-disabled="unit.price > potatoes" style="text-transform: none; border: solid 1.5px {{borders}}; border-radius: 5px" ng-click="price($index)">
+                                            <md-tooltip md-direction="top">{{unit.description}}</md-tooltip>
+                                            <div>{{::unit.name}}</div>
+                                            <div>Amount: {{unit.amount | number:0}}</div>
+                                            <div>Price: {{unit.price | shortNumber}}</div> 
+                                            <div>PpS: {{unit.pps * unit.mult | shortNumber:0}}</div>
+                                        </md-button>
+                                    </div>
+                                </div>
+                            </div>
+                        </md-content>
+                    </md-tab>
+                     <md-tab ng-if="totalPotatoes > 10000000" label="Buildings">
+                        <md-content class="md-padding">
+                            <h1 class="md-display-2">Tab Two</h1>
+                            <p>Integer turpis erat, porttitor vitae mi faucibus, laoreet interdum tellus. Curabitur posuere molestie dictum. Morbi eget congue risus, quis rhoncus quam. Suspendisse vitae hendrerit erat, at posuere mi. Cras eu fermentum nunc. Sed id ante eu orci commodo volutpat non ac est. Praesent ligula diam, congue eu enim scelerisque, finibus commodo lectus.</p>
+                        </md-content>
+                    </md-tab>
+                    <md-tab ng-if="false" label="Factory">
+                        <md-content class="md-padding">
+                            <h1 class="md-display-2">Tab Two</h1>
+                            <p>Integer turpis erat, porttitor vitae mi faucibus, laoreet interdum tellus. Curabitur posuere molestie dictum. Morbi eget congue risus, quis rhoncus quam. Suspendisse vitae hendrerit erat, at posuere mi. Cras eu fermentum nunc. Sed id ante eu orci commodo volutpat non ac est. Praesent ligula diam, congue eu enim scelerisque, finibus commodo lectus.</p>
+                        </md-content>
+                    </md-tab>
+                    <md-tab ng-if="getPPS() > 5" label="Upgrades">
+                        <md-content class="md-padding">
+                            <div layout="row" layout-align="center center" layout-wrap>
+                                <div ng-repeat="upgrade in upgrades">
+                                    <div flex="5">
+                                        <md-button ng-click="upgradeStuff($index)" ng-if="getPPS() >= upgrade.requirement && upgrade.amount < 1" ng-disabled="upgrade.cost > potatoes" style="text-transform: none; border: solid 1.5px {{borders}}; border-radius: 5px; width: 200px; height: 125px;">
+                                            <div>{{::upgrade.name}}</div>
+                                            <div>+{{upgrade.upgrade | number:0}}00%</div>
+                                            <div>Cost: {{upgrade.cost | shortNumber}}</div>
+                                        </md-button>
+                                    </div>
+                                </div>
+                            </div>
+                        </md-content>
+                    </md-tab>
+                </md-tabs>
+                <div>
+                    <button style="border: none;" class="bigPotato" ng-click="bigPotatoClick()"></button>
+                </div>
+            </md-tab>
+        </md-tabs>
+    <md-divider></md-divider> 
+    </md-content>	
+
+	<md-content>
+        <div ng-if="savingToggle > 0" class="saveButton" layout="column" layout-align="space-around">
+            <div>Saving</div>
+            <md-progress-circular style="text-align: left;" class="md-accent" md-mode="indeterminate"></md-progress-circular>
+        </div>
+    </md-content>
+</div>
